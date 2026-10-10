@@ -1,133 +1,112 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giriş Yap</title>
-    <style>
-        /* CSS kodu burada kalacak */
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #0000c8; /* Varsayılan arka plan rengi */
-            transition: background-color 0.3s ease; /* Arka plan rengi geçişi */
-        }
-        .container {
-            text-align: center;
-            padding: 20px;
-            border-radius: 8px;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 300px;
-            width: 100%;
-            transition: transform 0.3s ease; /* Kapsayıcı geçişi */
-        }
-        h2 {
-            color: #0000c8;
-            margin-bottom: 20px;
-        }
-        input {
-            width: calc(100% - 20px);
-            padding: 10px;
-            font-size: 16px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            width: calc(100% - 20px);
-            padding: 10px 20px;
-            font-size: 16px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            background-color: #0000c8;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            transition: transform 0.3s ease, background-color 0.3s ease; /* Buton geçişi */
-        }
-        button:hover {
-            transform: scale(1.05); /* Hover durumunda büyüme */
-            background-color: #0000a0; /* Hover durumunda arka plan rengi */
-        }
-        #error {
-            color: red;
-            display: none;
-            margin-top: 10px;
-            opacity: 0; /* Başlangıçta görünmez */
-            transition: opacity 0.3s ease; /* Hata mesajı geçişi */
-        }
-        #error.show {
-            display: block;
-            opacity: 1; /* Hata mesajını görünür yap */
-        }
-        /* Tema stilleri */
-        .color-picker {
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            right: 20px;
-            top: 20px;
-            background-color: rgba(255, 255, 255, 0.8); /* Arka planda beyaz yarı saydam alan */
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .color-circle {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            margin: 5px 0;
-            cursor: pointer;
-            border: 2px solid transparent; /* Seçili değilken kenar rengi */
-        }
-        .color-circle:hover {
-            border: 2px solid #000; /* Hover durumunda kenar rengi */
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TahaHub</title>
+<style>
+:root{--bg:#000;--panel:#141414;--card:#262626;--text:#fff;--muted:#8a8a8a;--accent:#00e5ff;--ink:#001417;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+a{color:inherit;text-decoration:none}
+.head{background:var(--panel);border-bottom:1px solid #1f1f1f}
+.strip{display:flex;justify-content:center;gap:52px;font-size:12px;color:var(--muted);padding:5px 0;background:#0a0a0a;overflow-x:auto;white-space:nowrap}
+.wrap{max-width:1510px;margin:auto;padding:0 20px}
+.top{display:flex;align-items:center;gap:18px;padding:10px 0 6px}
+.burger{width:26px;margin-right:6px}
+.burger i{display:block;height:3px;background:var(--accent);margin:5px 0;border-radius:2px}
+.sel{font-size:24px;color:#fff;white-space:nowrap;margin-right:6px}
+.logo{font-size:38px;font-weight:700;white-space:nowrap;letter-spacing:-1px}
+.logo span{background:var(--accent);color:var(--ink);padding:0 7px 2px;border-radius:6px;margin-left:4px}
+.search{flex:1;display:flex;align-items:center;background:var(--card);border-radius:30px;padding:0 18px;height:46px;min-width:140px;max-width:640px}
+.search input{flex:1;background:none;border:0;outline:0;color:var(--text);font-size:15px;padding:0 10px}
+.pill{background:#fff;color:#111;border:3px solid var(--accent);font-weight:700;padding:8px 22px;border-radius:30px;white-space:nowrap;font-size:14px}
+.ic{font-size:26px;color:#cfd8dc}
+.avatar{margin-left:auto;width:46px;height:46px;border-radius:50%;background:#1f1f1f;display:flex;align-items:center;justify-content:center;font-size:24px}
+.tabs{display:flex;overflow-x:auto}
+.tabs a{flex:1;min-width:130px;text-align:center;padding:16px 10px;font-weight:700;font-size:12px;text-transform:uppercase;border-bottom:2px solid transparent;white-space:nowrap}
+.tabs a.on{border-color:var(--accent);max-width:180px}
+.tabs a:hover{color:var(--accent)}
+h1{font-size:23px;margin:14px 0 14px}
+.chips{display:flex;gap:10px;overflow-x:auto;align-items:center;padding:2px 0 8px}
+.chips a{background:#111;border:2px solid #262626;padding:12px 24px;border-radius:30px;font-size:14px;font-weight:700;white-space:nowrap}
+.chips a:hover,.chips a.on{border-color:var(--accent);color:var(--accent)}
+.chips b{font-size:24px;color:#ddd;padding-left:6px}
+.row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.vid{position:relative;border-radius:4px;overflow:hidden;background:#111}
+.vid video{display:block;width:100%;height:300px;object-fit:cover;background:#000}
+.info{padding:10px 12px 14px}
+.vid:hover{outline:2px solid var(--accent)}
+.vt{font-size:15px;font-weight:700;line-height:1.3}
+.vs{font-size:12px;color:#d0d0d0;margin-top:3px}
+footer{background:var(--panel);margin-top:40px;padding:22px;color:var(--muted);font-size:13px;text-align:center}
+@media(max-width:1000px){.row{grid-template-columns:repeat(2,1fr)}.hide{display:none}.strip{justify-content:flex-start;padding-left:16px}}
+@media(max-width:560px){.row{grid-template-columns:1fr}.logo{font-size:30px}}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h2>Şifreyi Giriniz</h2>
-        <input type="password" id="password" placeholder="Şifreyi giriniz" onkeypress="handleKeyPress(event)">
-        <button onclick="checkPassword()">Gönder</button>
-        <p id="error">Yanlış Şifre, Tekrar deneyin.</p>
+<div class="head">
+  <div class="strip"><a href="#">HABERLER</a><a href="#">BLOG</a><a href="#">İPUÇLARI</a><a href="#">İNCELEMELER</a><a href="#">SİTELER</a><a href="#">MAĞAZA</a><a href="#">YARDIM</a><a href="#">TR</a></div>
+  <div class="wrap">
+    <div class="top">
+      <div class="burger"><i></i><i></i><i></i></div>
+      <div class="sel hide">⚧ ▾</div>
+      <a class="logo" href="#">Taha<span>Hub</span></a>
+      <div class="search"><span>🔍</span><input placeholder="TahaHub'da ara"></div>
+      <a class="pill hide" href="#">Giriş Yap</a>
+      <span class="ic hide">🎬</span><span class="ic hide">📷</span>
+      <div class="avatar hide">👤</div>
     </div>
-    
-    <div class="color-picker">
-        <div class="color-circle" style="background-color: #000000;" onclick="changeBackgroundColor('#000000')"></div>
-        <div class="color-circle" style="background-color: #0000c8;" onclick="changeBackgroundColor('#0000c8')"></div>
-        <div class="color-circle" style="background-color: #ffffff;" onclick="changeBackgroundColor('#ffffff')"></div>
-        <div class="color-circle" style="background-color: #808080;" onclick="changeBackgroundColor('#808080')"></div>
+    <div class="tabs">
+      <a class="on" href="#">Ana Sayfa</a><a href="#">Videolar ▾</a><a href="#">Kategoriler ▾</a><a href="#">Canlı ▾</a><a href="#">Yazarlar ▾</a><a href="#">İpuçları</a><a href="#">Topluluk ▾</a><a href="#">Fotoğraf &amp; GIF ▾</a>
     </div>
+  </div>
+</div>
+<div class="wrap">
+  <h1>Önerilen Videolar</h1>
+  <div class="chips">
+    <a class="on" href="#">Tümü</a><a href="#">Yeni Eklenenler</a><a href="#">En Çok İzlenen</a><a href="#">Gündem</a><a href="#">Bilim</a><a href="#">Müzik</a><a href="#">Yemek</a><a href="#">Spor</a><a href="#">Doğa</a><a href="#">Teknoloji</a><a href="#">Hayvanlar</a><a href="#">Seyahat</a><b>›</b>
+  </div>
 
-    <script>
-        function checkPassword() {
-            const password = document.getElementById('password').value;
-            const errorElement = document.getElementById('error');
-            if (password === '6969') {
-                window.location.href = 'gallery.html';
-            } else {
-                errorElement.classList.add('show'); // Hata mesajını göster
-                document.getElementById('password').value = ''; // Şifre alanını temizle
-            }
-        }
+  <div class="row">
+    <div class="vid">
+      <video src="denemeee.mp4" poster="hıyar.jpg" preload="metadata" controls muted loop playsinline></video>
+      <div class="info"><div class="vt"> Atiye Kötü Şeyler </div><div class="vs">31 · Yeni</div></div>
+    </div>
+    <div class="vid">
+      <video src="denemeee.mp4" poster="hıyar.jpg" preload="metadata" controls muted loop playsinline></video>
+      <div class="info"><div class="vt"> Fatih Besler e Kötü şeyler </div><div class="vs">31 · Yeni</div></div>
+    </div>
+    <div class="vid">
+      <video src="denemeee.mp4" poster="hıyar.jpg" preload="metadata" controls muted loop playsinline></video>
+      <div class="info"><div class="vt"> Berat a Kötü şeyler </div><div class="vs">31 · Yeni</div></div>
+    </div>
+    <div class="vid">
+      <video src="denemeee.mp4" poster="hıyar.jpg" preload="metadata" controls muted loop playsinline></video>
+      <div class="info"><div class="vt"> Ali ye Kötü şeyler </div><div class="vs">31 · Yeni</div></div>
+    </div>
+  </div>
 
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                checkPassword(); // Enter tuşuna basıldığında şifreyi kontrol et
-            }
-        }
-
-        function changeBackgroundColor(color) {
-            document.body.style.backgroundColor = color; // Arka plan rengini değiştir
-        }
-    </script>
+  <div class="row" style="margin-top:30px">
+    <div class="vid">
+      <video src="denemeee.mp4" poster="hıyar.jpg" preload="metadata" controls muted loop playsinline></video>
+      <div class="info"><div class="vt"> Fatih e Kötü şeyler  </div><div class="vs">31 · Yeni</div></div>
+    </div>
+    <div class="vid">
+      <video src="denemeee.mp4" poster="hıyar.jpg" preload="metadata" controls muted loop playsinline></video>
+      <div class="info"><div class="vt"> Buğra ya Kötü şeyler </div><div class="vs">31 · Yeni</div></div>
+    </div>
+    <div class="vid">
+      <video src="denemeee.mp4" poster="hıyar.jpg" preload="metadata" controls muted loop playsinline></video>
+      <div class="info"><div class="vt"> Caner e kötü şeyler </div><div class="vs">31 · Yeni</div></div>
+    </div>
+    <div class="vid">
+      <video src="denemeee.mp4" poster="hıyar.jpg" preload="metadata" controls muted loop playsinline></video>
+      <div class="info"><div class="vt"> Emin e Kötü şeyler </div><div class="vs">31 · Yeni</div></div>
+    </div>
+  </div>
+</div>
+<footer>© 2026 TahaHub · Hakkımızda · İletişim · Gizlilik · Kullanım Şartları</footer>
 </body>
 </html>
