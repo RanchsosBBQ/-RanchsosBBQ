@@ -481,48 +481,6 @@ function gotab(r){route=r;q="";$("#q").value="";render();scrollTo(0,0)}
 function goUser(i){if(openM)openM.close(true);document.querySelectorAll(".md").forEach(x=>x.remove());lm=null;pu=i||"";ed=false;route="profile";q="";$("#q").value="";render();scrollTo(0,0)}
 function needAcc(){need=true;goUser("")}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const ADMIN="bugibeygt",EM=u=>u+"@tahahub.local";
-let convs=[],cfU=null,unC=()=>{},dmOpen="",convsReady=false,grpUpd=null,chPath=["gchat"],lastG=null,notifs=[],nfU=null,unN=()=>{},stUpd=null,blks=[],frq=[],areq=[],stories=[],admOn=0,amode="login",bans=[],myBan=null,unBan=()=>{},admTab="req",admQ="",vcl=[],vpp={},vpu={},vcInit=0,VS=null,vmu=false,vdf=false,cmShowV=false,cmFoc="",VTL={},emptyAt={},setTab="acc",mTest=null,kbCap=null;
-const isAdm=()=>{const a=A();return !!a&&a.u==ADMIN},isBl=i=>blks.some(x=>(x.a==uid&&x.b==i)||(x.a==i&&x.b==uid)),fol=(a,b)=>(fings[a]||[]).includes(b);
-const canSee=i=>{if(i==uid||isAdm())return true;if(isBl(i))return false;const u=U(i);if(!u.priv)return true;if(!fol(uid,i))return false;if(A()&&A().priv&&!fol(i,uid))return false;return true};
-const hasSt=i=>canSee(i)&&stories.some(x=>x.uid==i),vposts=()=>posts.filter(p=>canSee(p.uid));
-const watchN=()=>{if(uid===nfU)return;nfU=uid;unN();notifs=[];unN=uid?onSnapshot(query(collection(db,"notifs"),where("to","==",uid)),x=>{notifs=[];x.forEach(d=>notifs.push({id:d.id,...d.data()}));const m=n=>n.ts?n.ts.toMillis():Date.now();notifs.sort((a,b)=>m(b)-m(a));sync()},()=>{}):()=>{}};
-const watchC=()=>{if(uid===cfU)return;cfU=uid;unC();convs=[];convsReady=false;unC=uid?onSnapshot(query(collection(db,"convs"),where("members","array-contains",uid)),x=>{convs=[];x.forEach(d=>convs.push({id:d.id,...d.data()}));const m=c=>c.ts?c.ts.toMillis():Date.now();convs.sort((a,b)=>m(b)-m(a));convsReady=true;sync()},()=>{}):()=>{}};
-const bell=()=>{watchN();watchC();const e=$("#bc");if(!e)return;const ls=+localStorage.ns||0;e.textContent=A()?(frq.filter(x=>x.b==uid).length+notifs.filter(n=>(n.ts?n.ts.toMillis():Date.now())>ls).length)||"":""};
-const tgt=p=>{if(p.startsWith("s_")){const x=stories.find(y=>"s_"+y.id==p);return x&&{to:x.uid,kind:"story",ref:x.id,m:x.vid?"v":"p"}}const x=posts.find(y=>y.id==p);return x&&{to:x.uid,kind:"post",ref:x.id,m:x.vid?"v":"p"}};
-const notify=async(p,type,text)=>{try{const g=tgt(p);if(!g||g.to==uid)return;const o={to:g.to,from:uid,type,kind:g.kind,ref:g.ref,m:g.m,ts:serverTimestamp()};if(text)o.text=text.slice(0,80);if(type=="like")await setDoc(doc(db,"notifs","like_"+p+"_"+uid),o);else await addDoc(collection(db,"notifs"),o)}catch(e){}};
-const thumb=p=>p.vid?`<img loading="lazy" draggable="false" src="${esc(cl(p.url,"so_0,f_jpg,w_600").replace(/\.\w+$/,".jpg"))}" alt=""><i class="pl">▶</i>`:`<img loading="lazy" draggable="false" src="${esc(cl(p.url,"f_auto,q_auto,w_600"))}" alt="">`;
-const ucard=i=>{const u=U(i);return `<div class="uc" data-act="user" data-id="${i}">${avh(i,"pb sm")}<div style="flex:1;min-width:0"><b>${esc(u.dn||u.u)}</b><small style="display:block;color:#aaa">@${esc(u.u)}${u.priv?" 🔒":""}</small></div>${i==uid?"":fbtn(i)}</div>`};
-onSnapshot(collection(db,"blocks"),x=>{blks=[];x.forEach(d=>blks.push(d.data()));sync()},()=>{});
-onSnapshot(collection(db,"freqs"),x=>{frq=[];x.forEach(d=>frq.push(d.data()));sync()},()=>{});
-onSnapshot(collection(db,"hid"),x=>{hid=new Set();x.forEach(d=>hid.add(d.id));rebuild();if(!document.querySelector(".md")&&!q&&["videos","photos","cats"].includes(route))render()},()=>{});
-onSnapshot(query(collection(db,"stories"),orderBy("ts","desc"),limit(300)),x=>{stories=[];const t0=Date.now()-864e5;x.forEach(d=>{const v=d.data();if(v.ts&&v.ts.toMillis()>t0)stories.push({id:d.id,...v})});sync()},()=>{});
-const cl=(u,tr)=>u&&u.includes("/upload/")?u.replace("/upload/","/upload/"+tr+"/"):u;
-const liked=i=>lkset.has(i+"_"+uid),isF=b=>(fers[b]||[]).includes(uid);
-const avh=(i,c="pa",ng)=>{const u=U(i),g=hasSt(i)&&!ng?` gl" data-act="story" data-id="${i}`:"";return u.photo?`<img class="${c}${g}" src="${esc(cl(u.photo,"c_fill,g_auto,w_160,h_160,f_auto,q_auto"))}" alt="">`:`<span class="${c}${g}">👤</span>`}
-const fbtn=i=>{const f=isF(i),r=frq.some(x=>x.a==uid&&x.b==i);return `<button class="fb${f||r?" on":""}" data-act="follow" data-id="${i}">${f?t("following"):r?"İstek gönderildi":t("follow")}</button>`}
-const XR=["explore","users","profile"];
-const soft=()=>{if(document.querySelector(".md"))return;if([...$("#app").querySelectorAll("input,textarea")].some(i=>i.type=="file"?i.files.length:i.value))return;render()};
-const sync=()=>{if(lastG!==null&&lastG!==!A()){render();return}if(stUpd)stUpd();if(route=="chat"&&!q)chatDraw();if(route=="dm"&&!q)dmSync();if(openM)openM.upd();if(lm)lm.fill();bell();if(!q&&XR.includes(route))soft();else if(!q&&(route=="notif"||(route=="admin"&&!(document.activeElement&&document.activeElement.id=="aq"))))render()};
-function refreshMe(){const a=A();$("#me span").textContent=a?a.u:(me||t("guest"));$("#me .av").innerHTML=a&&a.photo?`<img src="${esc(cl(a.photo,"c_fill,g_auto,w_96,h_96,f_auto,q_auto"))}" alt="">`:"👤";$("#cam").title=t("cam");$("#adm").hidden=!isAdm();bell();if(isAdm()&&!admOn){admOn=1;onSnapshot(query(collection(db,"requests"),orderBy("ts","desc"),limit(300)),x=>{areq=[];x.forEach(d=>areq.push({id:d.id,...d.data()}));sync()},()=>{});onSnapshot(collection(db,"bans"),x=>{bans=[];x.forEach(d=>bans.push({id:d.id,...d.data()}));sync()},()=>{})}}
-function gotab(r){route=r;q="";$("#q").value="";render();scrollTo(0,0)}
-function goUser(i){if(openM)openM.close(true);document.querySelectorAll(".md").forEach(x=>x.remove());lm=null;pu=i||"";ed=false;route="profile";q="";$("#q").value="";render();scrollTo(0,0)}
-function needAcc(){need=true;goUser("")}
-
 onSnapshot(query(collection(db,"users"),limit(500)),s=>{users={};s.forEach(d=>users[d.id]=d.data());uready=true;refreshMe();TH.sync();sync()});
 onSnapshot(query(collection(db,"posts"),orderBy("ts","desc"),limit(300)),s=>{posts=[];s.forEach(d=>{const p=d.data();if(!p.hidden)posts.push({id:d.id,...p})});sync()});
 onSnapshot(query(collection(db,"likes"),limit(5000)),s=>{lc={};lkset=new Set();s.forEach(d=>{const l=d.data();lc[l.p]=(lc[l.p]||0)+1;lkset.add(l.p+"_"+l.uid)});sync()});
